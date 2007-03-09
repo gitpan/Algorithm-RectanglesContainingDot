@@ -3,7 +3,10 @@ package Algorithm::RectanglesContainingDot;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
+
+package
+     Algorithm::RectanglesContainingDot::Perl;
 
 our $MIN_DIV = 8;
 
@@ -159,6 +162,15 @@ sub _part_rects {
             [undef, undef, undef, undef, \@r])
 }
 
+package Algorithm::RectanglesContainingDot;
+
+our @ISA;
+if (eval "require Algorithm::RectanglesContainingDot_XS") {
+    @ISA = qw(Algorithm::RectanglesContainingDot_XS);
+}
+else {
+    @ISA = qw(Algorithm::RectanglesContainingDot::Perl);
+}
 
 1;
 __END__
@@ -220,7 +232,8 @@ Returns the names of the rectangles containing the dot ($x, $y).
 =head1 SEE ALSO
 
 L<Algorithm::RectanglesContainingDot_XS> implements the same algorithm
-as this module in C/XS and so it is much faster.
+as this module in C/XS and so it is much faster. When available, this
+module will automatically load and use it.
 
 =head1 AUTHOR
 
